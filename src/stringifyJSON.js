@@ -9,7 +9,6 @@ var stringifyJSON = function(obj) {
 
 var json = function(obj) {
   // Base cases-primitive types
-  // Check for unstringifiablevalues i.e, function(){}, undefined
   // number
   if (typeof obj === 'number') {
     return obj.toString();
@@ -73,12 +72,14 @@ var stringifyArray = function(obj) {
 };
 
 var stringifyObj = function(obj) {
-  var newObj = '{';
+  var newObj = '';
   for (var key in obj) {
-    newObj = newObj + '"' + key + '":' + json(obj[key]) + ',';  
+    if (typeof obj[key] !== 'function' && obj[key] !== undefined) {
+      newObj = newObj + '"' + key + '":' + json(obj[key]) + ',';  
+    }
   }
   newObj = newObj.substring(0, newObj.length - 1);
-  return newObj + '}';
+  return '{' + newObj + '}';
 };
 
 
